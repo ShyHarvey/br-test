@@ -2,9 +2,9 @@ import React from 'react'
 import useSWR from 'swr'
 import { fetchComment } from '../../helpers/fetchers'
 
+
+//вложенный комментарий
 export const InnerComment: React.FC<{ commentId: number }> = ({ commentId }) => {
-
-
 
     const { data: comment } = useSWR(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty`, async () => {
         let comment = await fetchComment(commentId)

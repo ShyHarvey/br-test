@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import { fetchComment, fetchStory } from '../../helpers/fetchers'
 import { Comment } from '../comments/Comment'
+import { dateFormatter } from '../../helpers/dateFormatter'
+
 
 
 export const StoryPage: React.FC<{}> = () => {
@@ -12,7 +14,7 @@ export const StoryPage: React.FC<{}> = () => {
 
     let storyId = id ? +id : 1
 
-
+    //пояснения по SWR уже есть в MainPage.tsx
     const { data, isLoading, isValidating, error, mutate } = useSWR(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`, async () => {
         let story = await fetchStory(storyId)
         const comments = await Promise.all(
@@ -26,8 +28,8 @@ export const StoryPage: React.FC<{}> = () => {
 
     const { story, comments } = data ?? {}
 
-    const timeFormat = new Date(story?.time ? story.time * 1000 : 0);
-    const displayDate = `${timeFormat.getDate()}.${timeFormat.getMonth() + 1}.${timeFormat.getFullYear()}`;
+
+    const displayDate = dateFormatter(story?.time ? story.time : 0)
 
     if (error) {
         return <div className='container mx-auto'>
@@ -42,6 +44,7 @@ export const StoryPage: React.FC<{}> = () => {
             </button>
         </div>
     }
+
     if (isLoading) {
         return <div className='container mx-auto'>
             <p>Loading...</p>

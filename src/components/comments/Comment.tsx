@@ -4,6 +4,9 @@ import { fetchComment } from '../../helpers/fetchers'
 import { InnerComment } from './InnerComment'
 import { Transition } from '@headlessui/react'
 
+
+//корневой комментарий
+
 export const Comment: React.FC<{ commentId: number }> = ({ commentId }) => {
 
     const [showInnerComments, setShowInnerComments] = useState(false)
@@ -21,7 +24,11 @@ export const Comment: React.FC<{ commentId: number }> = ({ commentId }) => {
 
             <p className='font-bold'>Author: {comment.by}</p>
             <div dangerouslySetInnerHTML={{ __html: comment.text }} />
-            {(comment?.kids?.length !== undefined && comment?.kids?.length > 0) && <p className='inline-block p-1 mt-1 border border-red-600 rounded'>Click to open/close the answers</p>}
+
+            {(comment?.kids?.length !== undefined && comment?.kids?.length > 0) &&
+                <p className='inline-block p-1 mt-1 border border-red-600 rounded'>Click to open/close the answers</p>}
+
+            {/* компонент для анимации, почему бы и нет */}
             <Transition
                 show={showInnerComments}
                 enter="transition-opacity duration-500"

@@ -1,14 +1,12 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { TStory } from '../../types/storyModel'
+import { dateFormatter } from '../../helpers/dateFormatter';
 
-
-
-
+//компонент для одной новости на главной странице
 export const StoryComponent: React.FC<{ story: TStory }> = ({ story }) => {
 
-    const timeFormat = new Date(story.time ? story.time * 1000 : 0);
-    const displayDate = `${timeFormat.getDate()}.${timeFormat.getMonth() + 1}.${timeFormat.getFullYear()}`;
+    const displayDate = dateFormatter(story?.time ? story.time : 0)
 
     return (
         <li className='px-2 mb-3 transition-all border-l border-yellow-700 rounded hover:bg-slate-600/30'>
