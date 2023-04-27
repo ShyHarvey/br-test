@@ -1,6 +1,7 @@
 ## Stack
 * React
 * TypeScript
+* React Router V6
 * SWR
 * Tailwind
 * Headless UI
