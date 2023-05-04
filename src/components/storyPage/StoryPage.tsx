@@ -18,10 +18,10 @@ export const StoryPage: React.FC<{}> = () => {
     const { data, isLoading, isValidating, error, mutate } = useSWR(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`, async () => {
         let story = await fetchStory(storyId)
         const comments = await Promise.all(
-            story.kids.map(async (commentId) => {
+            story.kids?.map(async (commentId) => {
                 const comment = await fetchComment(commentId);
                 return comment
-            })
+            }) || []
         )
         return { story, comments }
     })
@@ -32,17 +32,18 @@ export const StoryPage: React.FC<{}> = () => {
     const displayDate = dateFormatter(story?.time ? story.time : 0)
 
     if (error) {
-        return <div className='container mx-auto'>
-            <p>Error</p>
-            <div className='flex items-center gap-2 mb-3'>
-                <button onClick={() => mutate()} className='px-4 py-1 text-lg font-bold text-white transition rounded-lg bg-slate-700 hover:bg-red-700'>Refresh</button>
-                {isValidating && <p>Refreshing...</p>}
-            </div>
-            <button className='px-2 text-lg font-bold text-white transition rounded-lg bg-slate-700 hover:bg-red-700'
-                onClick={() => navigate(-1)}>
-                &lt;--Go back
-            </button>
-        </div>
+        // return <div className='container mx-auto'>
+        //     <p>Error</p>
+        //     <div className='flex items-center gap-2 mb-3'>
+        //         <button onClick={() => mutate()} className='px-4 py-1 text-lg font-bold text-white transition rounded-lg bg-slate-700 hover:bg-red-700'>Refresh</button>
+        //         {isValidating && <p>Refreshing...</p>}
+        //     </div>
+        //     <button className='px-2 text-lg font-bold text-white transition rounded-lg bg-slate-700 hover:bg-red-700'
+        //         onClick={() => navigate(-1)}>
+        //         &lt;--Go back
+        //     </button>
+        // </div>\
+        console.log(error)
     }
 
     if (isLoading) {
